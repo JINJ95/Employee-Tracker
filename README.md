@@ -10,7 +10,6 @@ Solution for managing a company's employees using node, inquirer, and MySQL!
 <ul>
 <li><a href="#installation">Installation</a></li>
 <li><a href="#usage">Usage</a></li>
-<li><a href="#tests">Tests</a></li>
 <li><a href="#contributing">Contributing</a></li>
 <li><a href="#FAQ">FAQ</a></li>
 <li><a href="#support">Support</a></li>
@@ -19,32 +18,29 @@ Solution for managing a company's employees using node, inquirer, and MySQL!
 
 <h1>Installation</h1>
 
+<h2>Clone or Download</h2>
 <ul>
-<li>All the code required to get started</li>
-<li>images of what it should look like</li>
-</ul>
-<h2>Clone</h2>
-<ul>
-<li>Clone this repo to your local machine</li>
+<li>Clone or download this repo to your local machine</li>
 </ul>
 <h2>Setup</h2>
 <ul>
-<li>Update and install packages</li>
+<li>Open your terminal and locate into the root directory of the project folder.</li>
 </ul>
 
 <ul>
-<li>For this project use this command:</li>
+<li>Use this command to download packages:<code>npm i</code>
+</li>
 </ul>
-npm i
+
+<h2>Run it!<h2>
+<ul>
+<li>Run the application by entering <code>npm start</code></li>
+</ul>
+
 <h1>Usage</h1>
 
-* Provide instructions and examples for use. Include screenshots as needed.
-<h1>Tests</h1>
+![Gif]()
 
-<ul>
-<li>For this project use this command:</li>
-</ul>
-This is a test command
 <h1>Contributing</h1>
 
 <p><strong>Instructions</strong></p>

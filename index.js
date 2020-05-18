@@ -108,17 +108,17 @@ function addEmployee() {
 function deleteEmployee() {
     inquirer
         .prompt({
-            name: "employeeId",
-            message: "Id # of employee you would like to delete:"
+            name: "employeeName",
+            message: "Name of employee you would like to delete:"
         })
         .then(function (answer) {
-            var employeeId = answer.employeeId;
+            var employeeName = answer.employeeName;
             console.log("\nEmployee Deleted...\n");
             var query = connection.query(
                 "DELETE FROM employees WHERE ?",
                 [
                     {
-                        id: employeeId
+                        first_name: employeeName
                     }
                 ],
                 function (err, res) {
