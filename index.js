@@ -54,7 +54,7 @@ function employees() {
             name: "employees",
             type: "list",
             message: "Would you like to [Add], [Delete], [Update], or [View] employees?",
-            choices: ["Add", "Delete", "Update", "View", "EXIT"]
+            choices: ["Add", "Delete", "Update Role", "View", "EXIT"]
         })
         .then(function (answer) {
             if (answer.employees === "Add") {
@@ -62,8 +62,8 @@ function employees() {
             }
             else if (answer.employees === "Delete") {
                 deleteEmployee();
-            } else if (answer.employees === "Update") {
-                updateEmployee();
+            } else if (answer.employees === "Update Role") {
+                updateEmployeeRole();
             } else if (answer.employees === "View") {
                 viewEmployee();
             } else {
@@ -107,17 +107,17 @@ function addEmployee() {
 function deleteEmployee() {
     inquirer
         .prompt({
-            name: "employeeName",
-            message: "First name of employee you would like to delete:"
+            name: "employeeId",
+            message: "Id # of employee you would like to delete:"
         })
         .then(function (answer) {
-            var employeeName = answer.employeeName;
+            var employeeId = answer.employeeId;
             console.log("\nEmployee Deleted...\n");
             var query = connection.query(
                 "DELETE FROM employees WHERE ?",
                 [
                     {
-                        first_name: employeeName
+                        id: employeeId
                     }
                 ],
                 function (err, res) {
@@ -131,29 +131,86 @@ function deleteEmployee() {
         });
 }
 
-// function updateEmployee() {
-//     console.log("Updating employees...\n");
-//     var query = connection.query(
-//         "UPDATE employees SET ? WHERE ?",
-//         [
-//             {
-//                 quantity: 100
-//             },
-//             {
-//                 flavor: "Rocky Road"
-//             }
-//         ],
-//         function (err, res) {
-//             if (err) throw err;
-//             console.log(res.affectedRows + " products updated!\n");
-//             // Call deleteProduct AFTER the UPDATE completes
-//             deleteProduct();
-//         }
-//     );
-
-//     // logs the actual query being run
-//     console.log(query.sql);
-// }
+function updateEmployeeRole() {
+    inquirer.prompt([{
+        name: "firstName",
+        message: "First Name of employee:"
+    }, {
+        name: "updatedRole",
+        type: "list",
+        message: "Enter [1] Sales, [2] Engineering, [3] Finance, [4] Legal:",
+        choices: ["1", "2", "3", "4"]
+    }]).then(function (answer) {
+        console.log("\nUpdated employee role...\n");
+        if (answer.updatedRole === "1") {
+            var query = connection.query(
+                "UPDATE employees SET ? WHERE ?",
+                [
+                    {
+                        role_id: 1
+                    },
+                    {
+                        first_name: answer.firstName
+                    }
+                ],
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        if (answer.updatedRole === "2") {
+            var query = connection.query(
+                "UPDATE employees SET ? WHERE ?",
+                [
+                    {
+                        role_id: 2
+                    },
+                    {
+                        first_name: answer.firstName
+                    }
+                ],
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        if (answer.updatedRole === "3") {
+            var query = connection.query(
+                "UPDATE employees SET ? WHERE ?",
+                [
+                    {
+                        role_id: 3
+                    },
+                    {
+                        first_name: answer.firstName
+                    }
+                ],
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        if (answer.updatedRole === "4") {
+            var query = connection.query(
+                "UPDATE employees SET ? WHERE ?",
+                [
+                    {
+                        role_id: 4
+                    },
+                    {
+                        first_name: answer.firstName
+                    }
+                ],
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+        }
+        start();
+        // logs the actual query being run
+        //console.log(query.sql);
+    });
+}
 
 function viewEmployee() {
     connection.query("SELECT * FROM employees", function (err, res) {
