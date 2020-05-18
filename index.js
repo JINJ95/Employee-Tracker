@@ -92,9 +92,8 @@ function addEmployee() {
                     first_name: firstName,
                     last_name: lastName,
                 },
-                async function (err, res) {
+                function (err, res) {
                     if (err) throw err;
-                    //console.log(res.affectedRows + " employee inserted!\n");
                     // Call viewEmployee AFTER the INSERT completes
                     //viewEmployee();
                 }
@@ -205,7 +204,7 @@ function addDepartment() {
                 {
                     name: departmentName,
                 },
-                async function (err, res) {
+                function (err, res) {
                     if (err) throw err;
                     //console.log(res.affectedRows + " employee inserted!\n");
                     // Call viewEmployee AFTER the INSERT completes
@@ -257,25 +256,104 @@ function viewDepartments() {
     });
 }
 
-// Add Update or View Departments
-// function roles() {
-//     inquirer
-//         .prompt({
-//             name: "",
-//             type: "list",
-//             message: "Would you like to [Add], [Update], or [View] departments?",
-//             choices: ["Add", "Update", "View", "EXIT"]
-//         })
-//         .then(function (answer) {
-//             if (answer.departments === "Add") {
-//                 addDepartment();
-//             }
-//             else if (answer.departments === "Update") {
-//                 updateDepartment();
-//             } else if (answer.departments === "View") {
-//                 viewDepartments();
-//             } else {
-//                 connection.end();
-//             }
-//         });
-// }
+// Add Update or View roles
+function roles() {
+    inquirer
+        .prompt({
+            name: "roles",
+            type: "list",
+            message: "Would you like to [Add], [Delete], [Update], or [View] roles?",
+            choices: ["Add", "Delete", "Update", "View", "EXIT"]
+        })
+        .then(function (answer) {
+            if (answer.roles === "Add") {
+                addRole();
+            }
+            else if (answer.roles === "Delete") {
+                deleteRole();
+            } else if (answer.roles === "Update") {
+                updateRoles();
+            } else if (answer.roles === "View") {
+                viewRoles();
+            } else {
+                connection.end();
+            }
+        });
+}
+
+function viewRoles() {
+    connection.query("SELECT * FROM role", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        // for (var i = 0; i < res.length; i++) {
+        //     console.log(res[i].id + " | " + res[i].first_name + " | " + res[i].last_name + " | " + res[i].role_id + " | " + res[i].manager_id);
+        // }
+        // console.log("-----------------------------------");
+        start();
+    });
+}
+
+function addRole() {
+    inquirer
+        .prompt([{
+            name: "title",
+            message: "Role Title:"
+        },{
+            name: "salary",
+            message: "Role Salary:"
+        }, {
+            name: "departmentId",
+            message: "Role Department Id (Must Be a # 1-4):"
+        }])
+        .then(function (answer) {
+            var roleTitle = answer.title;
+            var roleSalary = answer.salary;
+            var roleDepartmentId = answer.departmentId;
+            console.log("\n1 new role inserted!\n");
+            var query = connection.query(
+                "INSERT INTO role SET ?",
+                {
+                    title: roleTitle,
+                    salary: roleSalary,
+                    department_id: roleDepartmentId
+                },
+                function (err, res) {
+                    if (err) throw err;
+                }
+            );
+            // logs the actual query being run
+            //console.log(query.sql);
+            start();
+        });
+}
+
+function deleteRole() {
+    inquirer
+        .prompt({
+            name: "roleName",
+            message: "Title of role you would like to delete?"
+        })
+        .then(function (answer) {
+            var roleName = answer.roleName;
+            if (answer.roleName == ""){
+                console.log("\nNo Role Deleted...\n");
+                return start()
+            }
+            console.log("\nRole Deleted...\n");
+            var query = connection.query(
+                "DELETE FROM role WHERE ?",
+                [
+                    {
+                        title: roleName
+                    }
+                ],
+                function (err, res) {
+                    if (err) throw err;
+
+                }
+            );
+            start();
+            // logs the actual query being run
+            //console.log(query.sql);
+        });
+}
