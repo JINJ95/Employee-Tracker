@@ -28,8 +28,11 @@ Solution for managing a company's employees using node, inquirer, and MySQL!
 </ul>
 
 <ul>
+  <li>Create Database with files in db folder</li>
+  <li>Fill out connection information for the sql database located in the index.js file</li>
 <li>Use this command to download packages:<code>npm i</code>
 </li>
+  
 </ul>
 
 <h2>Run it!<h2>
