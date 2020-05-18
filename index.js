@@ -30,7 +30,7 @@ function start() {
         .prompt({
             name: "Start",
             type: "list",
-            message: "Would you like to access [Employees], [Departments], [Roles] or EXIT?",
+            message: "Would you like to access [Employees], [Departments], [Roles] or [EXIT]?",
             choices: ["Employees", "Departments", "Roles", "EXIT"]
         })
         .then(function (answer) {
@@ -298,7 +298,7 @@ function addRole() {
         .prompt([{
             name: "title",
             message: "Role Title:"
-        },{
+        }, {
             name: "salary",
             message: "Role Salary:"
         }, {
@@ -335,7 +335,7 @@ function deleteRole() {
         })
         .then(function (answer) {
             var roleName = answer.roleName;
-            if (answer.roleName == ""){
+            if (answer.roleName == "") {
                 console.log("\nNo Role Deleted...\n");
                 return start()
             }
@@ -356,4 +356,82 @@ function deleteRole() {
             // logs the actual query being run
             //console.log(query.sql);
         });
+}
+
+function updateRoles() {
+    inquirer
+        .prompt([{
+            name: "roleName",
+            message: "Title of role you would like to Update:"
+        }, {
+            name: "updateChoice",
+            type: "list",
+            message: "Would you like to Update [Title], [Salary], [Department Id], or [Exit]?",
+            choices: ["Title", "Salary", "Department Id", "EXIT"]
+        }, {
+            name: "roleContent",
+            message: "New Content:"
+        }])
+        .then(function (answer) {
+            var roleName = answer.roleName;
+            var roleContent = answer.roleContent;
+            var column;
+            if (answer.roleName == "") {
+                console.log("\nNo Role Updated...\n");
+                return start()
+            }
+            if (answer.updateChoice === "Title") {
+                var query = connection.query(
+                    "UPDATE role SET ? WHERE ?",
+                    [
+                        {
+                            title: roleContent
+                        },
+                        {
+                            title: roleName
+                        }
+                    ],
+                    function (err, res) {
+                        if (err) throw err;
+                    }
+                );
+            }
+            else if (answer.updateChoice === "Salary") {
+                var query = connection.query(
+                    "UPDATE role SET ? WHERE ?",
+                    [
+                        {
+                            salary: roleContent
+                        },
+                        {
+                            title: roleName
+                        }
+                    ],
+                    function (err, res) {
+                        if (err) throw err;
+                    }
+                );
+            } else if (answer.updateChoice === "Department Id") {
+                var query = connection.query(
+                    "UPDATE role SET ? WHERE ?",
+                    [
+                        {
+                            department_id: roleContent
+                        },
+                        {
+                            title: roleName
+                        }
+                    ],
+                    function (err, res) {
+                        if (err) throw err;
+                    }
+                );
+            } else {
+                connection.end();
+            }
+            console.log("\nRole Updated...\n");
+            start();
+        });
+    // logs the actual query being run
+    //console.log(query.sql);
 }
