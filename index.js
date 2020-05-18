@@ -13,24 +13,27 @@ var connection = mysql.createConnection({
     user: "root",
 
     // Your password
-    password: "Iloveskymarie1!",
+    password: "",
     database: "employeeTrackerDB"
 });
 
 // connect to the mysql server and sql database
 connection.connect(function (err) {
     if (err) throw err;
-    // run the start function after the connection is made to prompt the user
+    //display employees after connection is made
+    // displayAll();
+    // run the start function to prompt user
     start();
 });
 
 // function which prompts the user for what action they should take
 function start() {
+    
     inquirer
         .prompt({
             name: "Start",
             type: "list",
-            message: "Would you like to access [Employees], [Departments], [Roles] or [EXIT]?",
+            message: "What would you like to do?",
             choices: ["Employees", "Departments", "Roles", "EXIT"]
         })
         .then(function (answer) {
@@ -492,3 +495,11 @@ function updateRoles() {
     // logs the actual query being run
     //console.log(query.sql);
 }
+
+// function displayAll (){
+//     connection.query("SELECT id FROM employees FULL OUTER JOIN department ON employees.id = department.id", function (err, res) {
+//         if (err) throw err;
+//         console.table(res);
+//         start();
+//     });
+// }
