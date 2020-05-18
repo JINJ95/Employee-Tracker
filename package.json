@@ -1,0 +1,24 @@
+{
+  "name": "Employee-Tracker",
+  "version": "1.0.0",
+  "description": "<p><a href=\"https://lbesson.mit-license.org/\"><img src=\"https://img.shields.io/badge/License-MIT-blue.svg\" alt=\"MIT license\"></a></p>",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/JINJ95/Employee-Tracker.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/JINJ95/Employee-Tracker/issues"
+  },
+  "homepage": "https://github.com/JINJ95/Employee-Tracker#readme",
+  "dependencies": {
+    "inquirer": "^7.1.0",
+    "mysql": "^2.18.1"
+  }
+}
