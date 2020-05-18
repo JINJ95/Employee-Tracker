@@ -1,5 +1,6 @@
 var mysql = require('mysql');
 var inquirer = require('inquirer');
+const cTable = require('console.table');
 
 // create the connection information for the sql database
 var connection = mysql.createConnection({
@@ -29,17 +30,39 @@ function start() {
         .prompt({
             name: "Start",
             type: "list",
-            message: "Would you like to [Add], [Update], or [View] departments, roles, and employees?",
+            message: "Would you like to access [Employees], [Departments], [Roles] or EXIT?",
+            choices: ["Employees", "Departments", "Roles", "EXIT"]
+        })
+        .then(function (answer) {
+            if (answer.Start === "Employees") {
+                employees();
+            }
+            else if (answer.Start === "Departments") {
+                departments();
+            } else if (answer.Start === "Roles") {
+                roles();
+            } else {
+                connection.end();
+            }
+        });
+}
+
+// Add Update or View Employees
+function employees() {
+    inquirer
+        .prompt({
+            name: "employees",
+            type: "list",
+            message: "Would you like to [Add], [Update], or [View] employees?",
             choices: ["Add", "Update", "View", "EXIT"]
         })
         .then(function (answer) {
-            // based on their answer, either call the bid or the post functions
-            if (answer.postOrBid === "Add") {
+            if (answer.employees === "Add") {
                 addEmployee();
             }
-            else if (answer.postOrBid === "Update") {
+            else if (answer.employees === "Update") {
                 updateEmployee();
-            } else if (answer.postOrBid === "View") {
+            } else if (answer.employees === "View") {
                 viewEmployee();
             } else {
                 connection.end();
@@ -47,15 +70,156 @@ function start() {
         });
 }
 
-
 function addEmployee() {
-    return
+    inquirer
+        .prompt([{
+            name: "firstName",
+            message: "First Name:",
+        }, {
+            name: "lastName",
+            message: "Last Name:",
+        },
+        ])
+        .then(function (answer) {
+            var lastName = answer.lastName;
+            var firstName = answer.firstName;
+            console.log("\n1 new employee inserted!\n");
+            var query = connection.query(
+                "INSERT INTO employees SET ?",
+                {
+                    first_name: firstName,
+                    last_name: lastName,
+                },
+                async function (err, res) {
+                    if (err) throw err;
+                    //console.log(res.affectedRows + " employee inserted!\n");
+                    // Call viewEmployee AFTER the INSERT completes
+                    //viewEmployee();
+                }
+            );
+            // logs the actual query being run
+            //console.log(query.sql);
+            start();
+        });
 }
 
-function updateEmployee() {
-    return
-}
+// function updateEmployee() {
+//     console.log("Updating employees...\n");
+//     var query = connection.query(
+//         "UPDATE employees SET ? WHERE ?",
+//         [
+//             {
+//                 quantity: 100
+//             },
+//             {
+//                 flavor: "Rocky Road"
+//             }
+//         ],
+//         function (err, res) {
+//             if (err) throw err;
+//             console.log(res.affectedRows + " products updated!\n");
+//             // Call deleteProduct AFTER the UPDATE completes
+//             deleteProduct();
+//         }
+//     );
+
+//     // logs the actual query being run
+//     console.log(query.sql);
+// }
 
 function viewEmployee() {
-    return
+    connection.query("SELECT * FROM employees", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        // for (var i = 0; i < res.length; i++) {
+        //     console.log(res[i].id + " | " + res[i].first_name + " | " + res[i].last_name + " | " + res[i].role_id + " | " + res[i].manager_id);
+        // }
+        // console.log("-----------------------------------");
+        start();
+    });
 }
+
+// Add Update or View Departments
+function departments() {
+    inquirer
+        .prompt({
+            name: "departments",
+            type: "list",
+            message: "Would you like to [Add], [Update], or [View] departments?",
+            choices: ["Add", "Update", "View", "EXIT"]
+        })
+        .then(function (answer) {
+            if (answer.departments === "Add") {
+                addDepartment();
+            }
+            else if (answer.departments === "Update") {
+                updateDepartment();
+            } else if (answer.departments === "View") {
+                viewDepartments();
+            } else {
+                connection.end();
+            }
+        });
+}
+
+function addDepartment() {
+    inquirer
+        .prompt({
+            name: "departmentName",
+            message: "New Department:"
+        })
+        .then(function (answer) {
+            var departmentName = answer.departmentName;
+            console.log("\n1 new department inserted!\n");
+            var query = connection.query(
+                "INSERT INTO department SET ?",
+                {
+                    name: departmentName,
+                },
+                async function (err, res) {
+                    if (err) throw err;
+                    //console.log(res.affectedRows + " employee inserted!\n");
+                    // Call viewEmployee AFTER the INSERT completes
+                    //viewEmployee();
+                }
+            );
+            // logs the actual query being run
+            //console.log(query.sql);
+            start();
+        });
+}
+
+function viewDepartments() {
+    connection.query("SELECT * FROM department", function (err, res) {
+        if (err) throw err;
+        console.table(res);
+        // for (var i = 0; i < res.length; i++) {
+        //     console.log(res[i].id + " | " + res[i].first_name + " | " + res[i].last_name + " | " + res[i].role_id + " | " + res[i].manager_id);
+        // }
+        // console.log("-----------------------------------");
+        start();
+    });
+}
+
+// Add Update or View Departments
+// function roles() {
+//     inquirer
+//         .prompt({
+//             name: "",
+//             type: "list",
+//             message: "Would you like to [Add], [Update], or [View] departments?",
+//             choices: ["Add", "Update", "View", "EXIT"]
+//         })
+//         .then(function (answer) {
+//             if (answer.departments === "Add") {
+//                 addDepartment();
+//             }
+//             else if (answer.departments === "Update") {
+//                 updateDepartment();
+//             } else if (answer.departments === "View") {
+//                 viewDepartments();
+//             } else {
+//                 connection.end();
+//             }
+//         });
+// }
