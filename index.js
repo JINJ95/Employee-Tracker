@@ -53,14 +53,16 @@ function employees() {
         .prompt({
             name: "employees",
             type: "list",
-            message: "Would you like to [Add], [Update], or [View] employees?",
-            choices: ["Add", "Update", "View", "EXIT"]
+            message: "Would you like to [Add], [Delete], [Update], or [View] employees?",
+            choices: ["Add", "Delete", "Update", "View", "EXIT"]
         })
         .then(function (answer) {
             if (answer.employees === "Add") {
                 addEmployee();
             }
-            else if (answer.employees === "Update") {
+            else if (answer.employees === "Delete") {
+                deleteEmployee();
+            } else if (answer.employees === "Update") {
                 updateEmployee();
             } else if (answer.employees === "View") {
                 viewEmployee();
@@ -100,6 +102,33 @@ function addEmployee() {
             // logs the actual query being run
             //console.log(query.sql);
             start();
+        });
+}
+
+function deleteEmployee() {
+    inquirer
+        .prompt({
+            name: "employeeName",
+            message: "First name of employee you would like to delete:"
+        })
+        .then(function (answer) {
+            var employeeName = answer.employeeName;
+            console.log("\nEmployee Deleted...\n");
+            var query = connection.query(
+                "DELETE FROM employees WHERE ?",
+                [
+                    {
+                        first_name: employeeName
+                    }
+                ],
+                function (err, res) {
+                    if (err) throw err;
+
+                }
+            );
+            start();
+            // logs the actual query being run
+            //console.log(query.sql);
         });
 }
 
@@ -146,14 +175,14 @@ function departments() {
             name: "departments",
             type: "list",
             message: "Would you like to [Add], [Update], or [View] departments?",
-            choices: ["Add", "Update", "View", "EXIT"]
+            choices: ["Add", "Delete", "View", "EXIT"]
         })
         .then(function (answer) {
             if (answer.departments === "Add") {
                 addDepartment();
             }
-            else if (answer.departments === "Update") {
-                updateDepartment();
+            else if (answer.departments === "Delete") {
+                deleteDepartment();
             } else if (answer.departments === "View") {
                 viewDepartments();
             } else {
@@ -186,6 +215,33 @@ function addDepartment() {
             // logs the actual query being run
             //console.log(query.sql);
             start();
+        });
+}
+
+function deleteDepartment() {
+    inquirer
+        .prompt({
+            name: "departmentName",
+            message: "What department would you like to delete?"
+        })
+        .then(function (answer) {
+            var departmentName = answer.departmentName;
+            console.log("\nDepartment Deleted...\n");
+            var query = connection.query(
+                "DELETE FROM department WHERE ?",
+                [
+                    {
+                        name: departmentName
+                    }
+                ],
+                function (err, res) {
+                    if (err) throw err;
+
+                }
+            );
+            start();
+            // logs the actual query being run
+            //console.log(query.sql);
         });
 }
 
