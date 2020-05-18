@@ -20,8 +20,6 @@ var connection = mysql.createConnection({
 // connect to the mysql server and sql database
 connection.connect(function (err) {
     if (err) throw err;
-    //display employees after connection is made
-    // displayAll();
     // run the start function to prompt user
     start();
 });
@@ -33,7 +31,7 @@ function start() {
         .prompt({
             name: "Start",
             type: "list",
-            message: "What would you like to do?",
+            message: "Would you like to access [Employees], [Departments], [Roles], or [Exit]?",
             choices: ["Employees", "Departments", "Roles", "EXIT"]
         })
         .then(function (answer) {
@@ -495,11 +493,3 @@ function updateRoles() {
     // logs the actual query being run
     //console.log(query.sql);
 }
-
-// function displayAll (){
-//     connection.query("SELECT id FROM employees FULL OUTER JOIN department ON employees.id = department.id", function (err, res) {
-//         if (err) throw err;
-//         console.table(res);
-//         start();
-//     });
-// }
