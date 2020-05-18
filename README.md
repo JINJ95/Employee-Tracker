@@ -39,7 +39,7 @@ Solution for managing a company's employees using node, inquirer, and MySQL!
 
 <h1>Usage</h1>
 
-![Gif](http://g.recordit.co/GPCeDM0q1c.gif)
+![Gif](http://g.recordit.co/6lfwdhmZio.gif)
 
 <h1>Contributing</h1>
 
