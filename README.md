@@ -4,7 +4,7 @@
 
 <h1>Description</h1>
 
-Solution for managing a company's employees using node, inquirer, and MySQL!
+Solution for managing a company's employees using node, inquirer, and MySQL!!
 <h1>Table of Contents</h1>
 
 <ul>
